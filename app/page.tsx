@@ -1,4 +1,4 @@
-import { CarCard, CustomFilter, Hero, SearchBar } from '@/components'
+import { CarCard, CustomFilter, Hero, SearchBar, ShowMore } from '@/components'
 import { HomeProps } from '@types'
 import { fetchCars } from '@utils'
 import { fuels, yearsOfProduction } from '@constants'
@@ -14,7 +14,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
 
-  const CarsList = () => {
+  const CarsList = async () => {
     return (
       <section>
         <div className='home__cars-wrapper'>
@@ -22,6 +22,11 @@ export default async function Home({ searchParams }: HomeProps) {
             <CarCard car={car} />
           ))}
         </div>
+
+        <ShowMore
+          pageNumber={(searchParams.limit || 10) / 10}
+          isNext={(searchParams.limit || 10) > allCars.length}
+        />
       </section>
     )
   }
